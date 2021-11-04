@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
     'django_filters',
+    'imagekit',
     #proj
     'clients',
 ]
@@ -125,6 +126,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = ['static']
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -139,6 +141,7 @@ MEDIA_AVATARS_DIR =  'avatars'
 
 
 AUTH_USER_MODEL = 'clients.User'
+AVATAR_WATERMARK = 'static/python.png'
 
 
 REST_FRAMEWORK = {

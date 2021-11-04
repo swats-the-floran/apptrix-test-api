@@ -33,7 +33,7 @@ class UserMVS(ModelViewSet):
     #    SearchFilter,
     ]
     filterset_fields = ['gender', 'first_name', 'last_name']
-    #search_fields = ['name', 'author']
+    #search_fields = ['first_name', 'last_name']
 
 
 class MatchMVS(ModelViewSet):
