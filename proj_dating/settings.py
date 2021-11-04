@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-(#3e5b^#ct*%(9ce-lnkt(j3m+@3cp*^41e+z$vk$bck)6vn!^'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
     #proj
-    'dating_app',
+    'clients',
 ]
 
 MIDDLEWARE = [
@@ -134,10 +134,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = 'media'
 
-MEDIA_AVATARS_DIR =  Path(MEDIA_ROOT).joinpath('avatars')
+MEDIA_AVATARS_DIR =  'avatars'
 
 
-AUTH_USER_MODEL = 'dating_app.User'
+AUTH_USER_MODEL = 'clients.User'
 
 
 REST_FRAMEWORK = {
@@ -146,3 +146,13 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ]
 }
+
+
+#gmail account for sending emails to users
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = os.environ.get('EMAIL_ADDR')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PWD')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
