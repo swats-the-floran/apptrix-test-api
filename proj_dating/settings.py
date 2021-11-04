@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     #libs
     'rest_framework',
     'drf_yasg',
+    'django_filters',
     #proj
     'clients',
 ]

@@ -1,4 +1,6 @@
 from django.core.mail import send_mail
+from django_filters.rest_framework import DjangoFilterBackend
+#from rest_framework.filters import SearchFilter
 from rest_framework.authentication import (
     BasicAuthentication,
 )
@@ -24,20 +26,14 @@ class UserMVS(ModelViewSet):
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    http_method_names = ['post']
+    http_method_names = ['get', 'post']
 
-
-#class UserCreateVS(ViewSet):
-
-    #serializer = UserSerializer
-
-    #def create(self, request):
-    #    print('working')
-    #    queryset = User.objects.all()
-    #    serializer = UserSerializer.create(queryset, many=False)
-    #    return Response(serializer.data)
-
-    
+    filter_backends = [
+        DjangoFilterBackend,
+    #    SearchFilter,
+    ]
+    filterset_fields = ['gender', 'first_name', 'last_name']
+    #search_fields = ['name', 'author']
 
 
 class MatchMVS(ModelViewSet):
@@ -60,13 +56,13 @@ class MatchMVS(ModelViewSet):
         
         reverse_match = Match.objects.filter(sender=recipient, recipient=sender)
         if reverse_match:
-            #send_mail(
-            #    f'Добрый день, {sender.first_name}',
-            #    f'Вы понравились {recipient.first_name}! Почта участника: {recipient.email}',
-            #    EMAIL_HOST_USER,
-            #    [sender.email],
-            #    fail_silently=False,
-            #)
+            send_mail(
+                f'Добрый день, {sender.first_name}',
+                f'Вы понравились {recipient.first_name}! Почта участника: {recipient.email}',
+                EMAIL_HOST_USER,
+                [sender.email],
+                fail_silently=False,
+            )
             send_mail(
                 f'Добрый день, {recipient.first_name}',
                 f'Вы понравились {sender.first_name}! Почта участника: {sender.email}',

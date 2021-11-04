@@ -7,12 +7,9 @@ from .views import (
 )
 
 
-urlpatterns = []
 
-
-#router = DefaultRouter()
-#router.register('', MatchMVS, basename='match')
-#urlpatterns += router.urls
-
-urlpatterns += [path('create/', UserMVS.as_view({'post': 'create'}), name='create_user')]
-urlpatterns += [path('<int:pk>/match/', MatchMVS.as_view({'post': 'match'}), name='create_match')]
+urlpatterns = [
+    path('clients/create/', UserMVS.as_view({'post': 'create'}), name='create_user'),
+    path('list/', UserMVS.as_view({'get': 'list'}), name='users_list'),
+    path('clients/<int:pk>/match/', MatchMVS.as_view({'post': 'match'}), name='create_match'),
+]

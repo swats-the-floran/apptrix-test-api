@@ -29,12 +29,13 @@ from .settings import (
     MEDIA_URL,
     STATIC_URL,
 )
+from clients.views import UserMVS
 
 schema_view = get_schema_view(
    openapi.Info(
       title="dating project's API",
       default_version='v0.1',
-      description="crud users and interactions",
+      description="api allows to create and view users and matches",
       terms_of_service="https://www.google.com/policies/terms/",
       contact=openapi.Contact(email="contact@snippets.local"),
       license=openapi.License(name="BSD License"),
@@ -47,7 +48,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # drf
     path('api/', include('rest_framework.urls', namespace='rest_framework')),
-    path('api/clients/', include('clients.urls'), name='clients'),
+    path('api/', include('clients.urls'), name='clients'),
     # swagger
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
