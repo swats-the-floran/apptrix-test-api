@@ -138,6 +138,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = 'media'
 
 MEDIA_AVATARS_DIR =  'avatars'
+MEDIA_CLPRODUCTS_DIR = 'clproducts'
 
 
 AUTH_USER_MODEL = 'clients.User'

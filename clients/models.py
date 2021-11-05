@@ -2,14 +2,19 @@ from django.contrib.auth.models import AbstractUser
 from django.db.models import (
     CASCADE,
     CharField,
+    DecimalField,
     ForeignKey,
-    #ImageField,
+    ImageField,
     Model,
+    SET_NULL,
 )
 from imagekit.models import ProcessedImageField
 
 from .processors import Watermark
-from proj_dating.settings import MEDIA_AVATARS_DIR
+from proj_dating.settings import (
+    MEDIA_AVATARS_DIR,
+    MEDIA_CLPRODUCTS_DIR,
+)
 
 
 class User(AbstractUser):
@@ -45,7 +50,7 @@ class User(AbstractUser):
 
 class Match(Model):
     """
-    model class. records that one participant (sender) likes another
+    match model. records that one participant (sender) likes another
     (recipient). double match should lead to corresponding actions
     """
     sender = ForeignKey(User, on_delete=CASCADE, related_name='senders')
@@ -56,3 +61,23 @@ class Match(Model):
             'sender',
             'recipient',
         )
+
+
+class CLCategory(Model):
+    """
+    product categories model for citilink 
+    """
+    name = CharField(max_length=128)
+    link = CharField(max_length=256, unique=True)
+    parent_category = ForeignKey('self', on_delete=SET_NULL, blank=True, null=True, related_name='children_categories')
+
+
+class CLProduct(Model):
+    """
+    product model for citilink products
+    """
+    category = ForeignKey(CLCategory, on_delete=SET_NULL, blank=True, null=True, related_name='products')
+    name = CharField(max_length=1024)
+    link = CharField(max_length=512, unique=True)
+    price = DecimalField(max_digits=15, decimal_places=2)
+    picture = ImageField(upload_to=MEDIA_CLPRODUCTS_DIR, blank=True, null=True)
